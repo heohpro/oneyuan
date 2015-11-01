@@ -1,13 +1,17 @@
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var users = require('./user');
+var user = require('./user');
+var commodity = require('./commodity');
+var gift = require('./gift');
 
 /* GET home page. */
 function setRoute(app){
   app.use(bodyParser());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
-  app.use('/user', users);
+  app.use('/user', user);
+  app.use('/goods', commodity);
+  app.use('/gift', gift);
   app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
