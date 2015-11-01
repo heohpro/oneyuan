@@ -1,10 +1,9 @@
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
+var logger = require('./common/logger');
 var config = require('config');
 var Router = require('./routes/index');
-var users = require('./routes/user');
 
 var app = express();
 
@@ -24,11 +23,12 @@ app.all('*', function(req, res, next) {
   next();
 });
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(logger.loggerInit(config.get("log4js")));
 Router.setRoute(app);
 app.listen(config.get('port'));
-console.log('Express Listen ' + config.get('port'));
+console.log('Express Listen ' + config.get('port') + "---current_developName:"+ config.get("developName"));
+
 // development error handler
 // will print stacktrace
 //if (app.get('env') === 'development') {
