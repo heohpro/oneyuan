@@ -9,10 +9,9 @@ if (typeof ErrorCode == 'undefined') {
     ParamsError: 1001,
     UserInfoError: 1002,
     InvalidCookies: 1003,
-    Error: 1004,
+    DatabaseQueryError:1004,
+    Error: 2001,
   };
 }
 
-module.exports = {
-  ErrorCode : ErrorCode,
-}
+module.exports = ErrorCode;

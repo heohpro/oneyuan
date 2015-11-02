@@ -3,6 +3,6 @@
  */
 var router = require('express').Router();
 
-router.get();
+router.get('/lukyUser');
 
 module.exports = router;

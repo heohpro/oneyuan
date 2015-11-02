@@ -2,6 +2,7 @@ server/oneyuan/bower_components/
 server/oneyuan/dist/
 server/oneyuan/node_modules/
 *.iml
+*.log
 .tmp
 server/oneyuan/.DS_Store
 *.css
