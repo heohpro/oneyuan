@@ -41,7 +41,7 @@ CREATE TABLE commodity (
   name varchar(100) DEFAULT NULL COMMENT '商品名称',
   typeCode varchar(4) DEFAULT NULL COMMENT '商品类型',
   label varchar(20) DEFAULT NULL COMMENT '标签',
-  crowdfundNumber int DEFAULT NULL COMMENT '已经众筹次数',
+  crowdfundNumber int DEFAULT 0 COMMENT '已经众筹次数',
   price int DEFAULT 0 COMMENT '价钱',
   imageList varchar(100) DEFAULT NULL COMMENT '图片地址',
   detail varchar(40) DEFAULT NULL COMMENT '详情  暂时为第三方网页介绍',

@@ -62,14 +62,46 @@ function addCommodity(data, callback) {
   });
 }
 
-function listCommodity(data, callback){
-  console.log(data);
+/**
+ * 列表查看商品众筹
+ * */
+function listCommodity(data, callback) {
   mysqlConnection.query('select * from commodity where `typeCode` = ? limit ?,?', [data.typeCode, data.start, data.end], function (err, rows) {
     console.log(err);
     callback(null, rows);
   });
 }
 
+/**
+ * 生成众筹实例
+ */
+function addCrowdFundInstance(data, callback) {
+  var now = new Date().getTime();
+  data.commodityId = data.id;
+  data.id = new ObjectID().toString();
+  data.startTime = now;
+  data.endTime = now + 3 * 60 * 60 * 1000;
+  mysqlConnection.query('insert into crowdfund_instance(`id`,`commodityId`,`periodId`,`totalNumber`,`startTime`,`endTime`) ' +
+  'values(?,?,?,?,?,?)', [data.id, data.commodityId, 1, data.price, data.startTime, data.endTime], function (err, rows) {
+    console.log(err);
+    callback(null, rows);
+  });
+}
+
+/**
+ * 某商品的众筹记录
+ * */
+function listRecordsOfCrowdFund(data, callback){
+  mysqlConnection.query('select order.id as recordId, u.id as userId, u.loginName as name,order.createTime as joinTime from order_of_crowdfund order,user u ' +
+  'where crowdfundInstanceId = ? and order.userId = u.id', [data.id], function (err, rows) {
+    console.log(err);
+    callback(null, rows);
+  });
+}
+
+/**
+ * 商品的详情
+ * */
 function detail(data, callback) {
   if (_.isEmpty(data.id)) {
     console.log('id is Empty!');
@@ -88,6 +120,7 @@ module.exports = {
   addType: addType,
   listType: listType,
   addCommodity: addCommodity,
-  listCommodity:listCommodity,
+  listCommodity: listCommodity,
   detail: detail,
+  addCrowdFundInstance: addCrowdFundInstance,
 }

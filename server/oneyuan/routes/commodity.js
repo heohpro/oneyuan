@@ -49,6 +49,10 @@ router.get('/:id', function(req, res, next) {
 });
 
 router.get('/:id/records', function(req, res, next) {
+  var data = {
+    id: req.params.id || '',
+    SSID: req.cookies.SSID || '',
+  };
 
 });
 
