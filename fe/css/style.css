@@ -1,0 +1,17 @@
+@import 'bootstrap.css';
+@import 'animate.css';
+@import 'font-awesome.min.css';
+@import 'simple-line-icons.css';
+@import "../js/lib/angular-ui-select/dist/select.min.css";
+@import "../js/lib/select2/select2.css";
+@import 'font.css';
+@import 'app.css';
+@import 'oneyuan.css';
+@import 'list.css';
+
+
+/* growl */
+.growl{position:fixed;top:60px;right:10px;float:right;width:250px;z-index: 100000;}
+.growl-item.ng-enter,.growl-item.ng-leave{-webkit-transition:.5s linear all;-moz-transition:.5s linear all;-o-transition:.5s linear all;transition:.5s linear all}
+.growl-item.ng-enter,.growl-item.ng-leave.ng-leave-active{opacity:0}
+.growl-item.ng-leave,.growl-item.ng-enter.ng-enter-active{opacity:1}

@@ -1,0 +1,69 @@
+{
+    "status": 1,
+    "data": {
+        "pageContent": [
+            {
+                "id": 135,
+                "batchId": 135,
+                "brandId": 135,
+                "brandName": "珍",
+                "storeId": 1,
+                "storeName": "测试",
+                "sequence": 12,
+                "createBy": "1:57794:wangzhenzhen02",
+                "createTime": 1441881000000,
+                "items": [
+                    {
+                        "id": 1,
+                        "goodsId": 123,
+                        "goodsName": "test",
+                        "num": 12
+                    },
+                    {
+                        "id": 1,
+                        "goodsId": 123,
+                        "goodsName": "test",
+                        "num": 12
+                    },
+                    {
+                        "id": 1,
+                        "goodsId": 123,
+                        "goodsName": "test",
+                        "num": 12
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "batchId": 3,
+                "brandId": 3,
+                "brandName": "满25减8",
+                "storeId": 1,
+                "storeName": "满25减8",
+                "sequence": 25,
+                "createBy": "test",
+                "createTime": 1421424000000,
+                "items": [
+                    {
+                        "id": 1,
+                        "goodsId": 123,
+                        "goodsName": "test",
+                        "num": 12
+                    },
+                    {
+                        "id": 1,
+                        "goodsId": 123,
+                        "goodsName": "test",
+                        "num": 12
+                    }
+                ]
+            }
+        ],
+        "page": {
+            "currentPageNo": 1,
+            "pageSize": 20,
+            "totalCount": 2,
+            "totalPageCount": 1
+        }
+    }
+}

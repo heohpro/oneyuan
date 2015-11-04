@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html ng-app="myApp">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>中心点坐标周边查询</title>
+    <script src="../js/lib/angular/angular.min.js"></script>
+    <script language="javascript">
+        var myApp = angular.module('myApp',[]);
+        myApp.controller('testCtrl',['$scope', '$timeout',function($scope,$timeout){
+            $scope.name = "pl";
+            $scope.$apply(setTimeout(function(){
+                $scope.name = "lee";
+            },3000));
+            $timeout(function(){
+                $scope.name = "heqingy";
+            },6000)
+            $timeout(function(){
+                $scope.name = "asdflkjasdf";
+            },7100)
+        }]);
+    </script>
+</head>
+<body ng-controller="testCtrl">
+<div>{{name}}</div>
+</body>
+</html>
