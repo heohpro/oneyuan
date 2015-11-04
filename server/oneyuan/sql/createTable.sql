@@ -4,7 +4,7 @@ CREATE TABLE user (
   realName varchar(20) DEFAULT NULL COMMENT '真实姓名',
   nickName varchar(20) DEFAULT NULL COMMENT '昵称',
   loginName varchar(20) NOT NULL COMMENT '登录用户名',
-  password varchar(20) NOT NULL COMMENT '密码',
+  password varchar(32) NOT NULL COMMENT '密码',
   mobilePhone varchar(11) DEFAULT NULL COMMENT '手机号',
   email varchar(20) DEFAULT NULL COMMENT '邮件',
   avatar varchar(40) DEFAULT NULL COMMENT '用户头像',

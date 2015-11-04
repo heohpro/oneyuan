@@ -2,22 +2,57 @@
  * Created by jlf on 15/10/30.
  */
 var _ = require('underscore');
+var config = require('config');
+var crypto = require('crypto');
+var mysqlConnection = require('mysql').createConnection(config.get('mysql'));
 
-function login(req, res){
-  var data = {
-    loginName: req.body.loginName || '',
-    password: req.body.password || '',
-  };
+function register(data, callback) {
+  data.password = crypto.createHash('md5').update(data.password).digest('hex');
+  mysqlConnection.query('insert into user(`id`,`loginName`,`password`,`createTime`,`updateTime`) ' +
+  'values(?,?,?,?,?)', [data.id, data.loginName, data.password, data.createTime, data.updateTime], function (err, insertResult) {
+    if (err) {
+      callback(err.message, null);
+    }
+    callback(null, 'success register!');
+  });
 }
 
-function addUser(req, res) {
-  var data = {
-    loginName: req.body.loginName || '',
-    password: req.body.password || '',
-  };
+function login(data, callback) {
+  data.password = crypto.createHash('md5').update(data.password).digest('hex');
+  mysqlConnection.query('select * from user where `loginName`=?', [data.loginName], function (err, queryResult) {
+    if (err) {
+      callback(err.message, null);
+    }
+    callback('', queryResult[0]);
+  });
+}
+
+function logout() {
+
+}
+
+function profile(data, callback) {
+  mysqlConnection.query('select * from user where `id`=?', [data.id], function (err, queryResult) {
+    if (err) {
+      callback(err.message, null);
+    }
+    callback(null, queryResult[0]);
+  });
+}
+
+function listRecordOfCrowdFund(data, callback){
+  mysqlConnection.query('select * from order_of_crowdfund where `userId`=?', [data.id], function (err, queryResult) {
+    if (err) {
+      callback(err.message, null);
+    }
+    callback(null, queryResult);
+  });
 }
 
 module.exports = {
+  register: register,
   login: login,
-  addUser: addUser,
+  logout: logout,
+  profile: profile,
+  listRecordOfCrowdFund:listRecordOfCrowdFund,
 }
