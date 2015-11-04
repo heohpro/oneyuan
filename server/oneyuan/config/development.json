@@ -1,0 +1,25 @@
+{
+  "port": 8051,
+  "developName": "oneyuan_DEV",
+  "mysql": {
+    "host": "localhost",
+    "user": "oneyuan",
+    "password": "oneyuan__1q2w3e",
+    "database": "oneyuan",
+    "port": 3306
+  },
+  "log4js": {
+    "appenders": [
+      {
+        "type": "console"
+      },
+      {
+        "type": "dateFile",
+        "filename": "./logs/oneyuan_log.log",
+        "pattern": "-yyyy-MM-dd",
+        "alwaysIncludePattern": true,
+        "category": "oneyuan-log"
+      }
+    ]
+  }
+}
