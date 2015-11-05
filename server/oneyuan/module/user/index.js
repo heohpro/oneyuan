@@ -40,7 +40,7 @@ function profile(data, callback) {
   });
 }
 
-function listRecordOfCrowdFund(data, callback){
+function listRecordsOfCrowdFund(data, callback){
   mysqlConnection.query('select * from order_of_crowdfund where `userId`=?', [data.id], function (err, queryResult) {
     if (err) {
       callback(err.message, null);
@@ -49,10 +49,21 @@ function listRecordOfCrowdFund(data, callback){
   });
 }
 
+function charge(data, callback){
+  //todo bill
+  mysqlConnection.query('update user set `balance`=`balance`+? where `id`=?',[data.balance,data.id], function(err, chargeResult){
+    if (err) {
+      callback(err.message, null);
+    }
+    callback(null, chargeResult);
+  });
+}
+
 module.exports = {
   register: register,
   login: login,
   logout: logout,
   profile: profile,
-  listRecordOfCrowdFund:listRecordOfCrowdFund,
+  listRecordsOfCrowdFund:listRecordsOfCrowdFund,
+  charge:charge,
 }

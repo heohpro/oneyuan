@@ -57,7 +57,9 @@ function addCommodity(data, callback) {
   };
   mysqlConnection.query('insert into commodity(`id`,`name`,`price`,`typeCode`,`label`,`imageList`,`createTime`,`updateTime`) ' +
   'values(?,?,?,?,?,?,?,?)', [data.id, data.name, data.price, data.typeCode, data.label, data.imageList, data.createTime, data.updateTime], function (err, rows) {
-    console.log(err);
+    if (err) {
+      callback(err.message, null);
+    }
     callback(null, rows);
   });
 }
@@ -67,7 +69,9 @@ function addCommodity(data, callback) {
  * */
 function listCommodity(data, callback) {
   mysqlConnection.query('select * from commodity where `typeCode` = ? limit ?,?', [data.typeCode, data.start, data.end], function (err, rows) {
-    console.log(err);
+    if (err) {
+      callback(err.message, null);
+    }
     callback(null, rows);
   });
 }
@@ -83,7 +87,9 @@ function addCrowdFundInstance(data, callback) {
   data.endTime = now + 3 * 60 * 60 * 1000;
   mysqlConnection.query('insert into crowdfund_instance(`id`,`commodityId`,`periodId`,`totalNumber`,`startTime`,`endTime`) ' +
   'values(?,?,?,?,?,?)', [data.id, data.commodityId, 1, data.price, data.startTime, data.endTime], function (err, rows) {
-    console.log(err);
+    if (err) {
+      callback(err.message, null);
+    }
     callback(null, rows);
   });
 }
@@ -93,8 +99,10 @@ function addCrowdFundInstance(data, callback) {
  * */
 function listRecordsOfCrowdFund(data, callback){
   mysqlConnection.query('select order.id as recordId, u.id as userId, u.loginName as name,order.createTime as joinTime from order_of_crowdfund order,user u ' +
-  'where crowdfundInstanceId = ? and order.userId = u.id', [data.id], function (err, rows) {
-    console.log(err);
+  'where crowdfundInstanceId = ?', [data.id], function (err, rows) {
+    if (err) {
+      callback(err.message, null);
+    }
     callback(null, rows);
   });
 }
@@ -107,13 +115,15 @@ function detail(data, callback) {
     console.log('id is Empty!');
     return res.json("error");
   }
-  mysqlConnection.query('select * from commodity where `id`=?', [data.id], function (err, rows) {
+  mysqlConnection.query('select crow.id id,com.name name,com.imageList url,com.introduction desc,com.detail detail,' +
+  'crow.totalNumber totalNumber,crow.currentNumber currentNumber,crow.createTime createTime,crow.updateTime updateTime ' +
+  'from commodity com, crowdfund_instance crow ' +
+  'where crow.id=? and com.id=crow.commodityId and crow.isFinish=0', [data.id], function (err, rows) {
     if (err) {
-      callback(err, null);
+      callback(err.message, null);
     }
     callback(null, rows[0]);
   });
-
 }
 
 module.exports = {
