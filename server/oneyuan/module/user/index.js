@@ -4,6 +4,7 @@
 var _ = require('underscore');
 var config = require('config');
 var crypto = require('crypto');
+var ObjectId = require('mongodb').ObjectID;
 var mysqlConnection = require('mysql').createConnection(config.get('mysql'));
 
 function register(data, callback) {
@@ -32,7 +33,7 @@ function logout() {
 }
 
 function profile(data, callback) {
-  mysqlConnection.query('select * from user where `id`=?', [data.id], function (err, queryResult) {
+  mysqlConnection.query('select * from user where `id`=?', [data.userId], function (err, queryResult) {
     if (err) {
       callback(err.message, null);
     }
@@ -40,8 +41,8 @@ function profile(data, callback) {
   });
 }
 
-function listRecordsOfCrowdFund(data, callback){
-  mysqlConnection.query('select * from order_of_crowdfund where `userId`=?', [data.id], function (err, queryResult) {
+function listRecordsOfCrowdFund(data, callback) {
+  mysqlConnection.query('select * from order_of_crowdfund where `userId`=?', [data.userId], function (err, queryResult) {
     if (err) {
       callback(err.message, null);
     }
@@ -49,13 +50,25 @@ function listRecordsOfCrowdFund(data, callback){
   });
 }
 
-function charge(data, callback){
-  //todo bill
-  mysqlConnection.query('update user set `balance`=`balance`+? where `id`=?',[data.balance,data.id], function(err, chargeResult){
+function charge(data, callback) {
+  data.createTime = new Date().getTime();
+  var trans = connection.startTransaction();
+  mysqlConnection.query('update user set `balance`=`balance`+? where `id`=?', [data.balance, data.userId], function (err, chargeResult) {
     if (err) {
+      trans.rollback();
       callback(err.message, null);
     }
-    callback(null, chargeResult);
+
+    mysqlConnection.query('insert into bill values(?,?,?,?,?,?)' +
+    '', [(new ObjectID()).toString(), data.userId, "充值", data.balance, data.createTime, "充值"], function (err, insertResult) {
+      if (err) {
+        trans.rollback();
+        callback(err.message, null);
+      }
+
+      tran.commit();
+      callback(null, "success charge");
+    });
   });
 }
 
@@ -64,6 +77,6 @@ module.exports = {
   login: login,
   logout: logout,
   profile: profile,
-  listRecordsOfCrowdFund:listRecordsOfCrowdFund,
-  charge:charge,
+  listRecordsOfCrowdFund: listRecordsOfCrowdFund,
+  charge: charge,
 }

@@ -11,22 +11,51 @@ var authService = require('../module/user/auth');
 /* GET users listing. */
 router.get('/profile/:id', function (req, res, next) {
   var data = {
-    id: req.params.id || '',
+    SSID: req.cookies.SSID || '',
   };
 
-  userService.profile(data, function(err, queryResult){
-    if(err){
-      var error = new Error();
-      error.message = err.message;
-      return error_handle(res, error, error_code.ParamsError);
-    }
+  if(_.isEmpty(data.SSID)){
+    var error = new Error();
+    error.message = 'param id is empty!';
+    return error_handle(res, error, error_code.ParamsError);
+  }
 
-    var result = {
-      code:error_code.Success,
-      msg:'',
-      data:queryResult,
-    }
-    return res.json(result);
+  Thenjs(function(cont){
+    authService.getUserId(data, function(err, userId){
+      if(err){
+        var error = new Error();
+        error.message = err;
+        return error_handle(res, error, error_code.Error);
+      }
+
+      if(_.isEmpty(result)){
+        var error = new Error();
+        error.message = err;
+        return error_handle(res, error, error_code.InvalidCookies);
+      }
+
+      data.userId = userId;
+      cont(null, data);
+    });
+  }).then(function(cont, arg){
+    userService.profile(data, function(err, queryResult){
+      if(err){
+        var error = new Error();
+        error.message = err.message;
+        return error_handle(res, error, error_code.ParamsError);
+      }
+
+      var result = {
+        code:error_code.Success,
+        msg:'',
+        data:queryResult,
+      }
+      return res.json(result);
+    });
+  }).fail(function(err, cont){
+    var error = new Error();
+    error.message = err.message;
+    return error_handle(res, error, error_code.Error);
   });
 });
 
@@ -64,31 +93,60 @@ router.post('/register', function (req, res, next) {
 
 router.get('/records',function(req, res, next){
   var data = {
-
+    SSID: req.cookies.SSID || '',
   };
 
-  userService.listRecordsOfCrowdFund(data, function(err, queryResults){
-    if(err){
-      var error = new Error();
-      error.message = err.message;
-      return error_handle(res, error, error_code.DatabaseQueryError);
-    }
-    var result = {
-      code: error_code.Success,
-      msg: '',
-      data:queryResults,
-    };
-    return res.json(result);
+  if(_.isEmpty(data.SSID)){
+    var error = new Error();
+    error.message = 'param id is empty!';
+    return error_handle(res, error, error_code.ParamsError);
+  }
+
+  Thenjs(function(cont){
+    authService.getUserId(data, function(err, userId){
+      if(err){
+        var error = new Error();
+        error.message = err;
+        return error_handle(res, error, error_code.Error);
+      }
+
+      if(_.isEmpty(result)){
+        var error = new Error();
+        error.message = err;
+        return error_handle(res, error, error_code.InvalidCookies);
+      }
+
+      data.userId = userId;
+      cont(null, data);
+    });
+  }).then(function(cont, arg){
+    userService.listRecordsOfCrowdFund(arg, function(err, queryResults){
+      if(err){
+        var error = new Error();
+        error.message = err.message;
+        return error_handle(res, error, error_code.DatabaseQueryError);
+      }
+      var result = {
+        code: error_code.Success,
+        msg: '',
+        data:queryResults,
+      };
+      return res.json(result);
+    });
+  }).fail(function(err, cont){
+    var error = new Error();
+    error.message = err.message;
+    return error_handle(res, error, error_code.Error);
   });
 });
 
-router.post('/charge/:id', function(req, res, next){
+router.post('/charge', function(req, res, next){
   var data={
-    id:req.params.id || '',
+    SSID: req.cookies.SSID || '',
     balance: req.body.balance || '',
   };
 
-  if(_.isEmpty(data.id)){
+  if(_.isEmpty(data.SSID)){
     var error = new Error();
     error.message = 'param id is empty!';
     return error_handle(res, error, error_code.ParamsError);
@@ -100,14 +158,43 @@ router.post('/charge/:id', function(req, res, next){
     return error_handle(res, error, error_code.ParamsError);
   }
 
-  console.log(data);
-  userService.charge(data, function(err, chargeResult){
-    if(err){
-      var error = new Error();
-      error.message = err.message;
-      return error_handle(res, error, error_code.ParamsError);
-    }
-    return res.json({result:"success charge"});
+  Thenjs(function(cont){
+    authService.getUserId(data, function(err, userId){
+      if(err){
+        var error = new Error();
+        error.message = err;
+        return error_handle(res, error, error_code.Error);
+      }
+
+      if(_.isEmpty(result)){
+        var error = new Error();
+        error.message = err;
+        return error_handle(res, error, error_code.InvalidCookies);
+      }
+
+      data.userId = userId;
+      cont(null, data);
+    });
+  }).then(function(cont, arg){
+    userService.charge(arg, function(err, chargeResult){
+      if(err){
+        var error = new Error();
+        error.message = err.message;
+        return error_handle(res, error, error_code.ParamsError);
+      }
+
+      var result = {
+        code: error_code.Success,
+        msg: chargeResult,
+        data:chargeResult,
+      };
+
+      return res.json(result);
+    });
+  }).fail(function(err, cont){
+    var error = new Error();
+    error.message = err.message;
+    return error_handle(res, error, error_code.Error);
   });
 });
 
@@ -132,12 +219,12 @@ router.post('/login', function(req, res, next){
       }
       if(!_.isEmpty(loginResult) && loginResult.password == data.password){
         data.userId = loginResult.id;
-        cont(null, data);
+        return cont(null, data);
       }
       var result = {
         code: error_code.ParamsError,
         msg: 'password error!',
-        data:'',
+        data:[],
       };
       return res.json(result);
     });
@@ -146,7 +233,7 @@ router.post('/login', function(req, res, next){
       if(err){
         var error = new Error();
         error.message = err;
-        return error_handle(res, error, error_code.ParamsError);
+        return error_handle(res, error, error_code.Error);
       }
 
       res.cookie('SSID', result, {domain:'.oneyuan.com', path:'/'});
@@ -160,7 +247,7 @@ router.post('/login', function(req, res, next){
   }).fail(function(err,cont){
     var error = new Error();
     error.message = err.message;
-    return error_handle(res, error, error_code.ParamsError);
+    return error_handle(res, error, error_code.Error);
   });
 });
 
