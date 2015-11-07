@@ -3,7 +3,7 @@ var _ = require('underscore');
 var ObjectID = require('mongodb').ObjectID;
 var userService = require('../module/user');
 var router = express.Router();
-var error_handle = require('../common/error_handler');
+var errorHandler = require('../common/error_handler');
 var error_code = require('../common/error_code');
 var Thenjs = require('thenjs');
 var authService = require('../module/user/auth');
@@ -17,7 +17,7 @@ router.get('/profile/:id', function (req, res, next) {
   if(_.isEmpty(data.SSID)){
     var error = new Error();
     error.message = 'param id is empty!';
-    return error_handle(res, error, error_code.ParamsError);
+    return errorHandler(res, error, error_code.ParamsError);
   }
 
   Thenjs(function(cont){
@@ -25,13 +25,13 @@ router.get('/profile/:id', function (req, res, next) {
       if(err){
         var error = new Error();
         error.message = err;
-        return error_handle(res, error, error_code.Error);
+        return errorHandler(res, error, error_code.Error);
       }
 
-      if(_.isEmpty(result)){
+      if(_.isEmpty(userId)){
         var error = new Error();
         error.message = err;
-        return error_handle(res, error, error_code.InvalidCookies);
+        return errorHandler(res, error, error_code.InvalidCookies);
       }
 
       data.userId = userId;
@@ -42,7 +42,7 @@ router.get('/profile/:id', function (req, res, next) {
       if(err){
         var error = new Error();
         error.message = err.message;
-        return error_handle(res, error, error_code.ParamsError);
+        return errorHandler(res, error, error_code.ParamsError);
       }
 
       var result = {
@@ -55,7 +55,7 @@ router.get('/profile/:id', function (req, res, next) {
   }).fail(function(err, cont){
     var error = new Error();
     error.message = err.message;
-    return error_handle(res, error, error_code.Error);
+    return errorHandler(res, error, error_code.Error);
   });
 });
 
@@ -73,14 +73,14 @@ router.post('/register', function (req, res, next) {
   if (_.isEmpty(data.loginName) || _.isEmpty(data.password)) {
     var error = new Error();
     error.message = 'loginName or password is empty!';
-    return error_handle(res, error, error_code.ParamsError);
+    return errorHandler(res, error, error_code.ParamsError);
   }
 
   userService.register(data, function(err, insertResult){
     if(err){
       var error = new Error();
       error.message = err.message;
-      return error_handle(res, error, error_code.ParamsError);
+      return errorHandler(res, error, error_code.ParamsError);
     }
     var result = {
       code:error_code.Success,
@@ -99,7 +99,7 @@ router.get('/records',function(req, res, next){
   if(_.isEmpty(data.SSID)){
     var error = new Error();
     error.message = 'param id is empty!';
-    return error_handle(res, error, error_code.ParamsError);
+    return errorHandler(res, error, error_code.ParamsError);
   }
 
   Thenjs(function(cont){
@@ -107,13 +107,13 @@ router.get('/records',function(req, res, next){
       if(err){
         var error = new Error();
         error.message = err;
-        return error_handle(res, error, error_code.Error);
+        return errorHandler(res, error, error_code.Error);
       }
 
-      if(_.isEmpty(result)){
+      if(_.isEmpty(userId)){
         var error = new Error();
         error.message = err;
-        return error_handle(res, error, error_code.InvalidCookies);
+        return errorHandler(res, error, error_code.InvalidCookies);
       }
 
       data.userId = userId;
@@ -124,7 +124,7 @@ router.get('/records',function(req, res, next){
       if(err){
         var error = new Error();
         error.message = err.message;
-        return error_handle(res, error, error_code.DatabaseQueryError);
+        return errorHandler(res, error, error_code.DatabaseQueryError);
       }
       var result = {
         code: error_code.Success,
@@ -136,7 +136,7 @@ router.get('/records',function(req, res, next){
   }).fail(function(err, cont){
     var error = new Error();
     error.message = err.message;
-    return error_handle(res, error, error_code.Error);
+    return errorHandler(res, error, error_code.Error);
   });
 });
 
@@ -149,13 +149,13 @@ router.post('/charge', function(req, res, next){
   if(_.isEmpty(data.SSID)){
     var error = new Error();
     error.message = 'param id is empty!';
-    return error_handle(res, error, error_code.ParamsError);
+    return errorHandler(res, error, error_code.ParamsError);
   }
 
   if(_.isEmpty(data.balance)){
     var error = new Error();
     error.message = 'param balance is empty!';
-    return error_handle(res, error, error_code.ParamsError);
+    return errorHandler(res, error, error_code.ParamsError);
   }
 
   Thenjs(function(cont){
@@ -163,13 +163,13 @@ router.post('/charge', function(req, res, next){
       if(err){
         var error = new Error();
         error.message = err;
-        return error_handle(res, error, error_code.Error);
+        return errorHandler(res, error, error_code.Error);
       }
 
-      if(_.isEmpty(result)){
+      if(_.isEmpty(userId)){
         var error = new Error();
         error.message = err;
-        return error_handle(res, error, error_code.InvalidCookies);
+        return errorHandler(res, error, error_code.InvalidCookies);
       }
 
       data.userId = userId;
@@ -178,9 +178,10 @@ router.post('/charge', function(req, res, next){
   }).then(function(cont, arg){
     userService.charge(arg, function(err, chargeResult){
       if(err){
+        console.log('dddddd'+err);
         var error = new Error();
         error.message = err.message;
-        return error_handle(res, error, error_code.ParamsError);
+        return errorHandler(res, error, error_code.ParamsError);
       }
 
       var result = {
@@ -194,7 +195,7 @@ router.post('/charge', function(req, res, next){
   }).fail(function(err, cont){
     var error = new Error();
     error.message = err.message;
-    return error_handle(res, error, error_code.Error);
+    return errorHandler(res, error, error_code.Error);
   });
 });
 

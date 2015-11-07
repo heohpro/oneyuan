@@ -4,7 +4,7 @@
 var _ = require('underscore');
 var config = require('config');
 var crypto = require('crypto');
-var ObjectId = require('mongodb').ObjectID;
+var ObjectID = require('mongodb').ObjectID;
 var mysqlConnection = require('mysql').createConnection(config.get('mysql'));
 
 function register(data, callback) {
@@ -33,7 +33,7 @@ function logout() {
 }
 
 function profile(data, callback) {
-  mysqlConnection.query('select * from user where `id`=?', [data.userId], function (err, queryResult) {
+  mysqlConnection.query('select id,nickName,loginName userName,mobilePhone,balance from user where `id`=?', [data.userId], function (err, queryResult) {
     if (err) {
       callback(err.message, null);
     }
@@ -52,31 +52,49 @@ function listRecordsOfCrowdFund(data, callback) {
 
 function charge(data, callback) {
   data.createTime = new Date().getTime();
-  var trans = connection.startTransaction();
-  mysqlConnection.query('update user set `balance`=`balance`+? where `id`=?', [data.balance, data.userId], function (err, chargeResult) {
+
+  mysqlConnection.beginTransaction(function (err) {
     if (err) {
-      trans.rollback();
       callback(err.message, null);
     }
-
-    mysqlConnection.query('insert into bill values(?,?,?,?,?,?)' +
-    '', [(new ObjectID()).toString(), data.userId, "充值", data.balance, data.createTime, "充值"], function (err, insertResult) {
+    mysqlConnection.query('update user set `balance`=`balance`+? where `id`=?', [data.balance, data.userId], function (err, chargeResult) {
       if (err) {
-        trans.rollback();
+        mysqlConnection.rollback(function (err) {
+          callback(err.message, null);
+        });
+
         callback(err.message, null);
       }
 
-      tran.commit();
-      callback(null, "success charge");
+      mysqlConnection.query('insert into bill values(?,?,?,?,?,?)' +
+      '', [(new ObjectID()).toString(), data.userId, "充值", data.balance, data.createTime, "充值"], function (err, insertResult) {
+        if (err) {
+          mysqlConnection.rollback(function (err) {
+            if(err) {
+              callback(err.message, null);
+            }
+          });
+          callback(err.message, null);
+        }
+
+        mysqlConnection.commit(function (err) {
+          if(err){
+            callback(err.message, null);
+          }
+
+          callback(null, "success charge");
+        });
+      });
     });
   });
 }
 
-module.exports = {
-  register: register,
-  login: login,
-  logout: logout,
-  profile: profile,
-  listRecordsOfCrowdFund: listRecordsOfCrowdFund,
-  charge: charge,
-}
+
+  module.exports = {
+    register: register,
+    login: login,
+    logout: logout,
+    profile: profile,
+    listRecordsOfCrowdFund: listRecordsOfCrowdFund,
+    charge: charge,
+  }

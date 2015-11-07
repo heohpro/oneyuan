@@ -41,7 +41,7 @@ function getUserId(data, callback){
     if(err){
       return callback(err.message, null);
     }
-
+    console.log(userId);
     redisConnection.quit();
     callback(null, userId);
   });
