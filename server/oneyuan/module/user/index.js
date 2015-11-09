@@ -5,6 +5,7 @@ var _ = require('underscore');
 var config = require('config');
 var crypto = require('crypto');
 var ObjectID = require('mongodb').ObjectID;
+var logger = require('../../common/logger');
 var mysqlConnection = require('mysql').createConnection(config.get('mysql'));
 
 function register(data, callback) {
@@ -14,6 +15,7 @@ function register(data, callback) {
     if (err) {
       callback(err.message, null);
     }
+    logger.info('Success register user----userId:'+data.id);
     callback(null, 'success register!');
   });
 }
@@ -35,18 +37,19 @@ function logout() {
 function profile(data, callback) {
   mysqlConnection.query('select id,nickName,loginName userName,mobilePhone,balance from user where `id`=?', [data.userId], function (err, queryResult) {
     if (err) {
-      callback(err.message, null);
+      return callback(err.message, null);
     }
-    callback(null, queryResult[0]);
+    return callback(null, queryResult[0]);
   });
 }
 
 function listRecordsOfCrowdFund(data, callback) {
-  mysqlConnection.query('select * from order_of_crowdfund where `userId`=?', [data.userId], function (err, queryResult) {
+  mysqlConnection.query('select crow.id,com.name,crow.totalNumber,crow.periodId,crow.currentNumber,crow.luckyNumber,com.imageList from order_of_crowdfund order, crowdfund_instance crow,commodity com ' +
+  'where order.userId=? and order.crowdfundInstanceId = crow.id and crow.commodityId=com.id', [data.userId], function (err, queryResult) {
     if (err) {
-      callback(err.message, null);
+      return callback(err.message, null);
     }
-    callback(null, queryResult);
+    return callback(null, queryResult);
   });
 }
 
@@ -55,15 +58,15 @@ function charge(data, callback) {
 
   mysqlConnection.beginTransaction(function (err) {
     if (err) {
-      callback(err.message, null);
+      return callback(err.message, null);
     }
     mysqlConnection.query('update user set `balance`=`balance`+? where `id`=?', [data.balance, data.userId], function (err, chargeResult) {
       if (err) {
         mysqlConnection.rollback(function (err) {
-          callback(err.message, null);
+          return callback(err.message, null);
         });
 
-        callback(err.message, null);
+        return callback(err.message, null);
       }
 
       mysqlConnection.query('insert into bill values(?,?,?,?,?,?)' +
@@ -71,18 +74,19 @@ function charge(data, callback) {
         if (err) {
           mysqlConnection.rollback(function (err) {
             if(err) {
-              callback(err.message, null);
+              return callback(err.message, null);
             }
           });
-          callback(err.message, null);
+          return callback(err.message, null);
         }
 
         mysqlConnection.commit(function (err) {
           if(err){
-            callback(err.message, null);
+            return callback(err.message, null);
           }
 
-          callback(null, "success charge");
+          logger.info('Charge   userId:'+data.id+' balance:'+data.balance);
+          return callback(null, "success charge");
         });
       });
     });

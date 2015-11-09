@@ -6,6 +6,7 @@ var router = express.Router();
 var errorHandler = require('../common/error_handler');
 var error_code = require('../common/error_code');
 var Thenjs = require('thenjs');
+var logger = require('../common/logger');
 var authService = require('../module/user/auth');
 
 /* GET users listing. */
@@ -126,10 +127,14 @@ router.get('/records',function(req, res, next){
         error.message = err.message;
         return errorHandler(res, error, error_code.DatabaseQueryError);
       }
+
       var result = {
         code: error_code.Success,
         msg: '',
-        data:queryResults,
+        data:{
+          userId:arg.userId,
+          records:queryResults,
+        },
       };
       return res.json(result);
     });

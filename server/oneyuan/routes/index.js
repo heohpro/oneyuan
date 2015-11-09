@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var user = require('./user');
 var commodity = require('./commodity');
 var gift = require('./gift');
+var logger = require('../common/logger');
 
 /* GET home page. */
 function setRoute(app){

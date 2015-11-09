@@ -8,16 +8,13 @@ var errorHandler = require('../common/error_handler');
 var error_code = require('../common/error_code');
 var Thenjs = require('thenjs');
 var authService = require('../module/user/auth');
-var giftService = require('../module/gift');
+var logger = require('../common/logger');
 
 router.get('/types', function(req, res, next) {
   var data = {
     SSID: req.cookies.SSID || '',
   };
 
-  commodityService.addCommodity(data, function(err, r) {
-
-  });
   commodityService.listType(data, function(err, typeList) {
     if (err) {
       var error = new Error();
@@ -171,19 +168,20 @@ router.post('/buy', function(req, res, next) {
       cont(null, data);
     });
   }).then(function(cont, arg) {
-    giftService.generateNumber(data, function(err, buyResult) {
+    commodityService.purchaseCommodity(arg, function(err, buyResult) {
       if (err) {
-
+        return cont(err, null);
       }
+
       var result = {
         code: error_code.Success,
         msg: err,
         data: {
           "buyStatus": 1,
           "message": "恭喜，购买成功！"
-        },
+        }
       };
-
+      logger
       return res.json(result);
     });
   }).fail(function(err, cont) {

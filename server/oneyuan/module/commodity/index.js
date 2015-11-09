@@ -4,6 +4,10 @@
 var _ = require('underscore');
 var ObjectID = require('mongodb').ObjectID;
 var config = require('config');
+var redis = require('redis');
+var Thenjs = require('thenjs');
+var logger = require('../../common/logger');
+var giftService = require('../gift');
 var mysqlConnection = require('mysql').createConnection(config.get('mysql'));
 
 /**
@@ -64,6 +68,7 @@ function addCommodity(data, callback) {
   });
 }
 
+
 /**
  * 列表查看商品众筹
  * */
@@ -94,8 +99,26 @@ function addCrowdFundInstance(data, callback) {
     if (err) {
       callback(err.message, null);
     }
-    callback(null, rows);
-  });
+
+    var redisConnection = redis.createClient(config.get('redis.port'), config.get('redis.host'),
+      {auth_pass: config.get('redis.password'), connect_timeout: config.get('redis.timeout')}
+    );
+
+    redisConnection.on('error', function(err){
+      logger.error('function getUserId: redis connect error!');
+      return callback(err.message, null);
+    });
+
+    redisConnection.set(data.id,'0', function(err, ok){
+      if(err){
+        return callback(err.message, null);
+      }
+
+      redisConnection.quit();
+      callback(null, ok);
+    });  });
+
+
 }
 
 /**
@@ -133,7 +156,71 @@ function isJoin(data, callback) {
     }
     callback(null, rows);
   });
-  //todo choujiangchu
+}
+
+function purchaseCommodity(data, callback){
+  Thenjs(function(cont){
+    giftService.generateNumber(data, function(err, generateResult){
+      if(err){
+        return cont(err, null);
+      }
+
+      data.lottyNumber = generateResult;
+      cont(null,null);
+    })
+  }).then(function(cont, arg){
+    _keepAccountOfPurchase(data, function(err, billResult){
+      if(err){
+        return callback(err, null);
+      }
+
+      return callback(null, 'success buy commodity!');
+    })
+  }).fail(function(err, cont){
+    return callback(err.message, null);
+  });
+}
+
+/**
+ * 记账
+ * */
+function _keepAccountOfPurchase(data, callback){
+  var now = new Date().getTime();
+  mysqlConnection.beginTransaction(function(err, trans){
+    if(err){
+      return callback(err.message, null);
+    }
+
+    trans.query('insert into order_of_crowdfund values(?,?,?,?,?)' +
+    '', [(new ObjectID).toString(), data.userId, data.commodityInstanceId, data.lottyNumber, now], function(err, result) {
+      if (err) {
+        trans.rollback(function(err){
+          return callback(err.message, null);
+        })
+        return callback('insert into order error', null);
+      }
+
+      trans.query('insert into bill values(?,?,?,?,?,?)' +
+      '', [(new ObjectID()).toString(), data.userId, "消费", data.count, now, "购买众筹商品"], function (err, insertResult) {
+        if (err) {
+          trans.rollback(function (err) {
+            if(err) {
+              return callback(err.message, null);
+            }
+          });
+          return callback(err.message, null);
+        }
+
+        trans.commit(function (err) {
+          if(err){
+            return callback(err.message, null);
+          }
+
+          return callback(null, "success keepAccountOf Purchase");
+        });
+      });
+    })
+  })
 }
 
 module.exports = {
@@ -145,4 +232,5 @@ module.exports = {
   addCrowdFundInstance: addCrowdFundInstance,
   listRecords: listRecords,
   isJoin: isJoin,
+  purchaseCommodity:purchaseCommodity,
 }
