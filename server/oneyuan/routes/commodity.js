@@ -191,6 +191,21 @@ router.post('/buy', function(req, res, next) {
   });
 });
 
+router.post('/addInstance', function(req, res, next) {
+  var data = {
+    SSID: req.cookies.SSID || '',
+    commodityId: req.body.id || '',
+  };
+
+  commodityService.generateCrowdFund(data, function(err, result){
+    if(err){x
+      return res.json({result:false});
+    }
+
+    return res.json({result:true});
+  })
+});
+
 router.get('/*', function(req, res, next) {
   var data = {
     typeCode: req.query.typeCode || '',
@@ -212,19 +227,51 @@ router.get('/*', function(req, res, next) {
   data.typeCode = data.typeCode + '%';
 
   data.start = (parseInt(data.pageNo) - 1) * data.pageSize;
+  Thenjs(function(cont){
+    commodityService.listCommodity(data, function(err, commodities) {
+      if (err) {
+        var error = new Error();
+        error.message = err;
+        return cont(error, null);
+      }
 
-  commodityService.listCommodity(data, function(err, commodities) {
-    if (err) {
-      var error = new Error();
-      error.message = err;
-      errorHandler(res, error, error_code.DatabaseQueryError);
-    }
+      return cont(null, commodities)
+    });
+  }).then(function(cont, arg){
     var result = {
       code: error_code.Success,
-      msg: err,
-      data: commodities,
+      msg: '',
+      data: {
+        page:{
+          currentPageNo: data.pageNo,
+          pageSize: data.pageSize,
+          totalCount: 0,
+          totalPageCount: 0,
+        }
+      }
     };
-    return res.json(result);
+
+    commodityService.getCommodityNumber(data, function(err, totalNumber) {
+      if (err) {
+        var error = new Error();
+        error.message = err;
+        return cont(error, null);
+      }
+
+      if(parseInt(totalNumber)<0){
+        result.data.pageContent = [];
+        return res.json(result);
+      }
+
+      result.data.page.totalCount = totalNumber;
+      result.data.page.totalPageCount = parseInt(parseInt(totalNumber) / data.pageSize);
+      result.data.pageContent = arg;
+      return res.json(result);
+    });
+  }).fail(function(err, cont){
+    var error = new Error();
+    error.message = err.message;
+    return errorHandler(res, error, error_code.DatabaseQueryError);
   });
 });
 

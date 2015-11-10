@@ -44,8 +44,8 @@ function profile(data, callback) {
 }
 
 function listRecordsOfCrowdFund(data, callback) {
-  mysqlConnection.query('select crow.id,com.name,crow.totalNumber,crow.periodId,crow.currentNumber,crow.luckyNumber,com.imageList from order_of_crowdfund order, crowdfund_instance crow,commodity com ' +
-  'where order.userId=? and order.crowdfundInstanceId = crow.id and crow.commodityId=com.id', [data.userId], function (err, queryResult) {
+  mysqlConnection.query('select crow.id,crow.name,crow.totalNumber,crow.periodId,crow.currentNumber,crow.luckyNumber,crow.imageList from order_of_crowdfund order, crowdfund_instance crow ' +
+  'where order.userId=? and order.crowdfundInstanceId = crow.id', [data.userId], function (err, queryResult) {
     if (err) {
       return callback(err.message, null);
     }

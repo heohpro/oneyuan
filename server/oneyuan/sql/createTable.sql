@@ -54,6 +54,13 @@ CREATE TABLE commodity (
 CREATE TABLE crowdfund_instance (
   id varchar(24) NOT NULL,
   commodityId varchar(24) NOT NULL COMMENT '商品ID',
+  name varchar(100) DEFAULT NULL COMMENT '商品名称',
+  typeCode varchar(4) DEFAULT NULL COMMENT '商品类型',
+  label varchar(20) DEFAULT NULL COMMENT '标签',
+  price int DEFAULT 0 COMMENT '价钱',
+  imageList varchar(100) DEFAULT NULL COMMENT '图片地址',
+  detail varchar(40) DEFAULT NULL COMMENT '详情  暂时为第三方网页介绍',
+  introduction text DEFAULT NULL COMMENT '商品介绍',
   periodId int DEFAULT 0 COMMENT '第几期，期数',
   totalNumber int DEFAULT 0 COMMENT '商品众筹总份数',
   currentNumber int DEFAULT 0 COMMENT '已筹得份数',

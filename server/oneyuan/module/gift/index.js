@@ -19,6 +19,7 @@ function generateNumber(data, callback) {
   redisConnection.incr(data.commodityInstanceId, function(err, lottyNumber) {
     lottyNumber = 100000 + parseInt(lottyNumber);
 
+    redisConnection.quit();
     callback(null, lottyNumber);
   });
 }
@@ -105,7 +106,7 @@ function _getTotalNumberOfCrowdfund(data, callback) {
 }
 
 function _addLuckyNumber(data, callback){
-  mysqlConnection.query('update crowdfund_instance set luckyNumber=?, idFinish=1 where `id`=?', [data.luckyNumber,data.crowdfundInstanceId], function(err, insertResult) {
+  mysqlConnection.query('update crowdfund_instance set luckyNumber=?, isFinish=1 where `id`=?', [data.luckyNumber,data.crowdfundInstanceId], function(err, insertResult) {
     if (err) {
       logger.error(err.message);
       return callback(err.message, null);
