@@ -1,46 +1,23 @@
 /**
- * @file dcServices
- * @author penglu02@meituan.com
+ * @file indexServices
+ * @author jingubang2008@126.com
  */
 
 define(function () {
     return function ($http, $state) {
         return {
-            getData: function(){
+            getCategoryList: function(){
                 return $http({
-                    method: "post",
-                    url: basePath+"/admin/dc/dcuploadlist",
-                    data:{}
+                    method: "get",
+                    url: basePath+"/goods/types",
                 });
             },
-            deleteRule: function(id,type){
+            getCategoryDetail: function(data){
                 return $http({
-                    method: "post",
-                    url: basePath+"/admin/dc/delete",
-                    data: {"batchId":id,"fileType":type}
+                    method: "get",
+                    url: basePath+"/goods/types",
+                    params: data
                 });
-            },
-            newRebateRule: function (promotion,rule){
-                return $http({
-                    method: "post",
-                    url: basePath+"/admin/promoRule/shareRebate/add",
-                    data: {
-                        "promoBegin": promotion.promoBegin,
-                        "promoEnd": promotion.promoEnd,
-                        "promoName": promotion.promoName,
-                        "rule": {
-                            "couponEndDate": rule.couponEndDate,
-                            "couponBeginDate": rule.couponBeginDate,
-                            "couponId": rule.couponId,
-                            "couponMoney": rule.couponMoney,
-                            "ruleDesc": encodeURIComponent(rule.ruleDesc),
-                            "shareDesc": rule.shareDesc,
-                            "shareImage": rule.shareImage,
-                            "shareTitle": rule.shareTitle,
-                            "validDays": rule.validDays
-                        }
-                    }
-                })
             }
         };
     };

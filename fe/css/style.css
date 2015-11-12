@@ -1,4 +1,4 @@
-@import 'bootstrap.css';
+/*@import 'bootstrap.css';*/
 @import 'animate.css';
 @import 'font-awesome.min.css';
 @import 'simple-line-icons.css';
@@ -8,6 +8,8 @@
 @import 'app.css';
 @import 'oneyuan.css';
 @import 'list.css';
+@import 'goods.css';
+@import 'user.css';
 
 
 /* growl */

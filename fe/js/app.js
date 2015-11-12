@@ -78,6 +78,14 @@ define(
                         url: "/index",
                         templateUrl: baseUrl + 'tpl/index.html'
                     })
+                    .state('app.goods', {
+                        url: "/goods",
+                        templateUrl: baseUrl + 'tpl/goods.html'
+                    })
+                    .state('app.user', {
+                        url: "/user",
+                        templateUrl: baseUrl + 'tpl/user.html'
+                    })
                     //首页列表页
 
                     //.state('app.procurement.uploadPurchase',{

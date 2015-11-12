@@ -1,0 +1,381 @@
+<div class="g-body">
+    <div class="m-user">
+        <div class="g-wrap">
+            <ul class="w-crumbs f-clear">
+                <li class="w-crumbs-item"><a href="http://1.163.com">首页</a><span class="w-crumbs-split">&gt;</span></li>
+                <li class="w-crumbs-item w-crumbs-active">个人中心</li>
+            </ul>
+            <div class="m-user-info f-clear" id="dvUserInfo">
+                <a class="avatar m-user-faceEdit m-user-faceEdit-160" href="javascript:void(0);">
+                    <img width="160" height="160" onerror="this.src='http://mimg.127.net/p/yy/lib/img/avatar/160.jpeg'" src="http://mimg.127.net/p/yy/lib/img/avatar/160.jpeg">
+                    <span class="m-user-faceEdit-tips" data-func="editAvatar">点击编辑头像</span>
+                </a>
+                <div class="info">
+                    <div class="nickname" id="nameWrapper">
+                        <span class="txt dark" id="spUserName">jingubang2***@126.com</span>
+                        <span class="opt"><a href="javascript:void(0);" data-func="editName">编辑</a></span>
+                        <div class="m-user-edit" id="dvUserNameEdit">
+                            <input type="text" value="jingubang2***@126.com"><a href="javascript:void(0);" data-func="save">保存</a>
+                        </div>
+                    </div>
+                    <div class="cid">ID：<strong class="dark">60493884</strong></div>
+                    <div class="mobile" id="mobileWrapper">
+                        <span class="txt" id="spUserMobile">手机号码：<strong class="dark">18813147511</strong></span>
+                        <span class="opt"><a href="javascript:void(0);" data-func="editMobile">修改</a></span>
+                    </div>
+                    <div class="money f-clear">
+                        <div class="txt">账户余额：<strong class="highlight">0夺宝币</strong></div>
+                        <div class="opt">
+                            <a href="http://1.163.com/pay/recharge.do" class="w-button w-button-s" data-func="charge"><span>充值</span></a>
+                        </div>
+                    </div>
+                    <div class="freecoin f-clear" id="dvBonusNum">
+                        <div class="txt">我的红包：<strong class="highlight"><span class="numspan">0</span>个</strong></div>
+                        <span class="opt"><a href="http://1.163.com/user/bonus.do">查看</a></span>
+                    </div>
+                </div>
+            </div>
+            <script type="text/template" id="editMobileTmpl">
+                <div class="title">
+                    <strong>完成手机验证</strong>，以便在您获得商品时，我们可以及时通知您！
+                </div>
+                <div class="m-user-form w-form">
+                    <div class="w-form-item mobile">
+                        <div class="w-form-name">填写手机号码</div><div class="w-form-cont"><span id="mobileInput"></span><a id="mobileReinput" style="display:none;margin-left:8px;" href="javascript:void(0);">修改</a></div>
+                    </div>
+                    <div class="w-form-item code">
+                        <div class="w-form-name">填写短信验证码</div><div class="w-form-cont" id="mobileCode"></div>
+                    </div>
+                </div>
+                <div data-pro="footer" class="w-msgbox-ft">
+                    <button class="w-button w-button-main" data-pro="ok"><span>确定提交</span></button>
+                </div>
+            </script>
+            <script type="text/javascript">
+                User = {
+                    avatarPrefix: '',
+                    nickname : 'jingubang2***@126.com',
+                    cid : 60493884,
+                    mobile : '18813147511',
+                    coin : 0,
+                    uid : 'jingubang2***@126.com',
+                    freeCoin : 0,
+                    bonusNum: {}
+                };
+            </script>
+            <div class="w-tabs w-tabs-main">
+                <div class="w-tabs-tab m-user-tab">
+                    <div class="w-tabs-tab-item w-tabs-tab-item-selected">
+                        夺宝记录
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <a href="http://1.163.com/user/wishlist.do?cid=60493884" class="w-tabs-tab-item">
+                        心愿单
+                    </a>
+
+
+                    <a href="http://1.163.com/user/win.do?cid=60493884" class="w-tabs-tab-item">
+                        中奖记录
+                    </a>
+
+
+
+
+                    <a href="http://1.163.com/user/share.do?cid=60493884" class="w-tabs-tab-item">
+                        晒单
+                    </a>
+                    <a href="http://1.163.com/user/chargeRecord.do?cid=60493884" class="w-tabs-tab-item">
+                        充值记录
+                    </a>
+                    <a href="http://1.163.com/user/shipAddress.do?cid=60493884" class="w-tabs-tab-item">
+                        联系地址
+                    </a>
+                    <a href="http://1.163.com/user/bonus.do?cid=60493884" class="w-tabs-tab-item">
+                        我的红包
+                    </a>
+                </div>
+                <div class="w-tabs-panel m-user-panel">
+                    <div class="w-tabs-panel-item m-user-duobaoRecord">
+                        <div class="m-user-title">
+                            参与成功 <span class="split">|</span> <a href="http://1.163.com/user/order.do" class="tablink normal">未付款</a><span id="spTopay" class="remark"></span> <span class="split">|</span> <a href="http://1.163.com/user/multiRecord.do" class="tablink normal">多期参与</a>
+                        </div>
+
+                        <div id="dvDuobaoRecord">
+                            <div class="m-user-status">
+                                我的参与提醒： <a href="javascript:void(0);" class="" data-func="status" data-status="2">即将揭晓商品<strong>（0）</strong></a><a href="javascript:void(0);" class="" data-func="status" data-status="1">进行中的商品<strong>（0）</strong></a><a href="javascript:void(0);" class="" data-func="status" data-status="3">已揭晓商品<strong>（7）</strong></a><a href="javascript:void(0);" class="" data-func="status" data-status="0">已过期商品<strong>（0）</strong></a>
+                            </div>
+                            <div class="m-user-region f-clear">
+                                <div data-func="region" data-region="0" class="item">全部</div>
+                                <div data-func="region" data-region="1" class="item">今天</div>
+                                <div data-func="region" data-region="2" class="item">本周</div>
+                                <div data-func="region" data-region="3" class="item">本月</div>
+                                <div data-func="region" data-region="4" class="item on">最近三个月</div>
+                                <div class="ext">选择时间段: <input type="text" id="timerStart" value="2015/10/12" class="hasDatepicker"> - <input type="text" id="timerEnd" value="2015/11/11" class="hasDatepicker"> <button data-func="region" data-region="5" class="w-button w-button-simple"><span>搜索</span></button></div>
+                            </div>
+                            <table class="w-table m-user-highTable">
+                                <thead>
+                                <tr>
+                                    <th class="col1">商品图片</th>
+                                    <th class="col2">商品名称</th>
+                                    <th class="col3">商品期号</th>
+                                    <th class="col4">夺宝状态</th>
+                                    <th class="col5">参与人次</th>
+                                    <th class="col6">操作</th>
+                                </tr>
+                                </thead>
+                            </table>
+                            <table class="w-table m-user-listTable  over">
+                                <tbody>
+                                <tr>
+                                    <td class="col1">
+                                        <div class="w-goods">
+                                            <div class="w-goods-pic">
+                                                <a target="_blank" href="http://1.163.com/detail/491-210102668.html">
+                                                    <img src="http://res.126.net/p/dbqb/one/241/491/36d9a4cdda724be3b166333578d992ee.png" alt="头戴式显示器 Oculus rift DK2 虚拟现实眼镜" width="64" height="48" class="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col2">
+                                        <div class="w-goods w-goods-l">
+                                            <p class="w-goods-title f-txtabb"><a title="头戴式显示器 Oculus rift DK2 虚拟现实眼镜" target="_blank" href="http://1.163.com/detail/491-210102668.html">头戴式显示器 Oculus rift DK2 虚拟现实眼镜</a></p>
+                                            <p class="w-goods-price">总需：6999人次</p>
+                                            <div class="winner">
+                                                <div class="name">获得者：<a href="http://1.163.com/user/index.do?cid=12739752" title="肾白卖了(ID:12739752)">肾白卖了</a>（本期共参与<strong class="txt-dark">10</strong>人次）</div>
+                                                <div class="code">幸运号码：<strong class="txt-impt">10003644</strong></div>
+                                                <div class="time">揭晓时间：2015-10-13 16:24:00.000</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col3">210102668</td>
+                                    <td class="col4">
+                                        <span class="txt-impt">已揭晓</span>
+                                    </td>
+                                    <td class="col5">
+                                        <p>1人次</p>
+                                    </td>
+                                    <td class="col6"><a href="http://1.163.com/user/duobaoDetail.do?cid=60493884&amp;gid=491&amp;period=210102668&amp;pageNum=1">详情</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="w-table m-user-listTable  over">
+                                <tbody>
+                                <tr>
+                                    <td class="col1">
+                                        <div class="w-goods">
+                                            <div class="w-goods-pic">
+                                                <a target="_blank" href="http://1.163.com/detail/600-210102820.html">
+                                                    <img src="http://res.126.net/p/dbqb/one/100/600/b03ac6fd81e6ec29ca62fc5a4e0ecef5.png" alt="极米无屏超级电视Z3DP梦想升级版" width="64" height="48" class="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col2">
+                                        <div class="w-goods w-goods-l">
+                                            <p class="w-goods-title f-txtabb"><a title="极米无屏超级电视Z3DP梦想升级版" target="_blank" href="http://1.163.com/detail/600-210102820.html">极米无屏超级电视Z3DP梦想升级版</a></p>
+                                            <p class="w-goods-price">总需：2399人次</p>
+                                            <div class="winner">
+                                                <div class="name">获得者：<a href="http://1.163.com/user/index.do?cid=57875004" title="中国的中一次(ID:57875004)">中国的中一次</a>（本期共参与<strong class="txt-dark">3</strong>人次）</div>
+                                                <div class="code">幸运号码：<strong class="txt-impt">10002098</strong></div>
+                                                <div class="time">揭晓时间：2015-10-11 10:04:00.000</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col3">210102820</td>
+                                    <td class="col4">
+                                        <span class="txt-impt">已揭晓</span>
+                                    </td>
+                                    <td class="col5">
+                                        <p>1人次</p>
+                                    </td>
+                                    <td class="col6"><a href="http://1.163.com/user/duobaoDetail.do?cid=60493884&amp;gid=600&amp;period=210102820&amp;pageNum=1">详情</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="w-table m-user-listTable  over">
+                                <tbody>
+                                <tr>
+                                    <td class="col1">
+                                        <div class="w-goods">
+                                            <div class="w-goods-pic">
+                                                <a target="_blank" href="http://1.163.com/detail/348-210110120.html">
+                                                    <img src="http://res.126.net/p/dbqb/one/98/348/2451a99aa6f20ba6e44802c3b1931664.png" alt="Apple Watch Sport 38毫米 铝金属表壳 运动表带" width="64" height="48" class="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col2">
+                                        <div class="w-goods w-goods-l">
+                                            <p class="w-goods-title f-txtabb"><a title="Apple Watch Sport 38毫米 铝金属表壳 运动表带" target="_blank" href="http://1.163.com/detail/348-210110120.html">Apple Watch Sport 38毫米 铝金属表壳 运动表带</a></p>
+                                            <p class="w-goods-price">总需：3288人次</p>
+                                            <div class="winner">
+                                                <div class="name">获得者：<a href="http://1.163.com/user/index.do?cid=59946371" title="求中电视电脑(ID:59946371)">求中电视电脑</a>（本期共参与<strong class="txt-dark">300</strong>人次）</div>
+                                                <div class="code">幸运号码：<strong class="txt-impt">10001898</strong></div>
+                                                <div class="time">揭晓时间：2015-10-11 01:19:00.000</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col3">210110120</td>
+                                    <td class="col4">
+                                        <span class="txt-impt">已揭晓</span>
+                                    </td>
+                                    <td class="col5">
+                                        <p>1人次</p>
+                                    </td>
+                                    <td class="col6"><a href="http://1.163.com/user/duobaoDetail.do?cid=60493884&amp;gid=348&amp;period=210110120&amp;pageNum=1">详情</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="w-table m-user-listTable  over">
+                                <tbody>
+                                <tr>
+                                    <td class="col1">
+                                        <div class="w-goods">
+                                            <div class="w-goods-pic">
+                                                <a target="_blank" href="http://1.163.com/detail/510-210110136.html">
+                                                    <img src="http://res.126.net/p/dbqb/one/112/112/6bdd11c50920d89ac51e315c072c40e4.png" alt="Apple MacBook Pro 15.4英寸笔记本" width="64" height="48" class="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col2">
+                                        <div class="w-goods w-goods-l">
+                                            <p class="w-goods-title f-txtabb"><a title="Apple MacBook Pro 15.4英寸笔记本" target="_blank" href="http://1.163.com/detail/510-210110136.html">Apple MacBook Pro 15.4英寸笔记本</a></p>
+                                            <p class="w-goods-price">总需：14288人次</p>
+                                            <div class="winner">
+                                                <div class="name">获得者：<a href="http://1.163.com/user/index.do?cid=53250802" title="JJ思密达(ID:53250802)">JJ思密达</a>（本期共参与<strong class="txt-dark">100</strong>人次）</div>
+                                                <div class="code">幸运号码：<strong class="txt-impt">10013120</strong></div>
+                                                <div class="time">揭晓时间：2015-10-11 01:14:00.000</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col3">210110136</td>
+                                    <td class="col4">
+                                        <span class="txt-impt">已揭晓</span>
+                                    </td>
+                                    <td class="col5">
+                                        <p>1人次</p>
+                                    </td>
+                                    <td class="col6"><a href="http://1.163.com/user/duobaoDetail.do?cid=60493884&amp;gid=510&amp;period=210110136&amp;pageNum=1">详情</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="w-table m-user-listTable  over">
+                                <tbody>
+                                <tr>
+                                    <td class="col1">
+                                        <div class="w-goods">
+                                            <div class="w-goods-pic">
+                                                <a target="_blank" href="http://1.163.com/detail/447-210103708.html">
+                                                    <img src="http://mimg.127.net/p/t.gif" data-src="http://res.126.net/p/dbqb/one/197/447/c16e138986a01a844888140cc7da6acc.png" alt="小米电视2 40英寸" width="64" height="48" data-csstext="" style="min-height: 40px; min-width: 40px;">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col2">
+                                        <div class="w-goods w-goods-l">
+                                            <p class="w-goods-title f-txtabb"><a title="小米电视2 40英寸" target="_blank" href="http://1.163.com/detail/447-210103708.html">小米电视2 40英寸</a></p>
+                                            <p class="w-goods-price">总需：2499人次</p>
+                                            <div class="winner">
+                                                <div class="name">获得者：<a href="http://1.163.com/user/index.do?cid=60540375" title="&nbsp;梵高先生(ID:60540375)">&nbsp;梵高先生</a>（本期共参与<strong class="txt-dark">1</strong>人次）</div>
+                                                <div class="code">幸运号码：<strong class="txt-impt">10001152</strong></div>
+                                                <div class="time">揭晓时间：2015-10-11 01:14:00.000</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col3">210103708</td>
+                                    <td class="col4">
+                                        <span class="txt-impt">已揭晓</span>
+                                    </td>
+                                    <td class="col5">
+                                        <p>1人次</p>
+                                    </td>
+                                    <td class="col6"><a href="http://1.163.com/user/duobaoDetail.do?cid=60493884&amp;gid=447&amp;period=210103708&amp;pageNum=1">详情</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="w-table m-user-listTable  over">
+                                <tbody>
+                                <tr>
+                                    <td class="col1">
+                                        <div class="w-goods">
+                                            <div class="w-goods-pic">
+                                                <a target="_blank" href="http://1.163.com/detail/895-210110111.html">
+                                                    <img src="http://mimg.127.net/p/t.gif" data-src="http://res.126.net/p/dbqb/one/145/895/581c0dc80966b25f4b4dc8b15989c509.png" alt="Apple iPhone6s 16G 颜色随机" width="64" height="48" data-csstext="" style="min-height: 40px; min-width: 40px;">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col2">
+                                        <div class="w-goods w-goods-l">
+                                            <p class="w-goods-title f-txtabb"><a title="Apple iPhone6s 16G 颜色随机" target="_blank" href="http://1.163.com/detail/895-210110111.html">Apple iPhone6s 16G 颜色随机</a></p>
+                                            <p class="w-goods-price">总需：6488人次</p>
+                                            <div class="winner">
+                                                <div class="name">获得者：<a href="http://1.163.com/user/index.do?cid=58037182" title="10月10号星期6(ID:58037182)">10月10号星期6</a>（本期共参与<strong class="txt-dark">31</strong>人次）</div>
+                                                <div class="code">幸运号码：<strong class="txt-impt">10003903</strong></div>
+                                                <div class="time">揭晓时间：2015-10-11 00:59:00.000</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col3">210110111</td>
+                                    <td class="col4">
+                                        <span class="txt-impt">已揭晓</span>
+                                    </td>
+                                    <td class="col5">
+                                        <p>1人次</p>
+                                    </td>
+                                    <td class="col6"><a href="http://1.163.com/user/duobaoDetail.do?cid=60493884&amp;gid=895&amp;period=210110111&amp;pageNum=1">详情</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <table class="w-table m-user-listTable  over">
+                                <tbody>
+                                <tr>
+                                    <td class="col1">
+                                        <div class="w-goods">
+                                            <div class="w-goods-pic">
+                                                <a target="_blank" href="http://1.163.com/detail/1019-210101161.html">
+                                                    <img src="http://mimg.127.net/p/t.gif" data-src="http://res.126.net/p/dbqb/one/19/1019/6065717c2454b1d5a4296e01e6f18a49.png" alt="【公益】魅族 | 破峰骑行活动用自行车" width="64" height="48" data-csstext="" style="min-height: 40px; min-width: 40px;">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col2">
+                                        <div class="w-goods w-goods-l">
+                                            <p class="w-goods-title f-txtabb"><a title="【公益】魅族 | 破峰骑行活动用自行车" target="_blank" href="http://1.163.com/detail/1019-210101161.html">【公益】魅族 | 破峰骑行活动用自行车</a></p>
+                                            <p class="w-goods-price">总需：2999人次</p>
+                                            <div class="winner">
+                                                <div class="name">获得者：<a href="http://1.163.com/user/index.do?cid=57321940" title="也中不了一个(ID:57321940)">也中不了一个</a>（本期共参与<strong class="txt-dark">5</strong>人次）</div>
+                                                <div class="code">幸运号码：<strong class="txt-impt">10002050</strong></div>
+                                                <div class="time">揭晓时间：2015-10-10 15:04:00.000</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="col3">210101161</td>
+                                    <td class="col4">
+                                        <span class="txt-impt">已揭晓</span>
+                                    </td>
+                                    <td class="col5">
+                                        <p>1人次</p>
+                                    </td>
+                                    <td class="col6"><a href="http://1.163.com/user/duobaoDetail.do?cid=60493884&amp;gid=1019&amp;period=210101161&amp;pageNum=1">详情</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="m-user-page" style="display:none;" id="dvPage"></div>
+                        <div id="dvTips" style="text-align: right"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
