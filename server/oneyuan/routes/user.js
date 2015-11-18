@@ -295,7 +295,7 @@ router.post('/login', function(req, res, next) {
         return error_handle(res, error, error_code.Error);
       }
 
-      res.cookie('SSID', result, {domain: '.oneyuan.com', path: '/'});
+      res.cookie('SSID', result, {domain: 'oneyuan.win', path: '/'});
       var result = {
         code: error_code.Success,
         msg: '',
