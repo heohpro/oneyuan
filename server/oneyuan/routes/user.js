@@ -64,9 +64,9 @@ router.post('/register', function(req, res, next) {
   var now = new Date().getTime();
   var data = {
     id: new ObjectID().toString(),
-    nickName: 'fff',
-    loginName: 'jlf_oneyuan',
-    password: 'jlf_oneyuan',
+//    nickName: 'fff',
+    loginName: req.body.name || '',
+    password: req.body.password || '',
     createTime: now,
     updateTime: now,
   };

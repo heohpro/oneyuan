@@ -46,17 +46,7 @@ function listType(data, callback) {
 /**
  * 增加商品*/
 function addCommodity(data, callback) {
-  var now = new Date().getTime();
-  var data = {
-    id: new ObjectID().toString(),
-    name: '阳澄湖大闸蟹礼盒 6只装998型礼品券 ',
-    price: 35,
-    typeCode: '30',
-    label: '阳澄湖 螃蟹',
-    imageList: 'http://res.126.net/p/dbqb/one/73/823/fb9ef42900a61b3c460f4e0fcfbb4713.jpg',
-    createTime: now,
-    updateTime: now,
-  };
+  data.id = new ObjectID().toString();
   mysqlConnection.query('insert into commodity(`id`,`name`,`price`,`typeCode`,`label`,`imageList`,`createTime`,`updateTime`) ' +
   'values(?,?,?,?,?,?,?,?)', [data.id, data.name, data.price, data.typeCode, data.label, data.imageList, data.createTime, data.updateTime], function(err, rows) {
     if (err) {
@@ -145,6 +135,19 @@ function _getCommodityInfo(data, callback) {
   });
 }
 
+function _getCommodityInfoList(data, callback) {
+  mysqlConnection.query('select id commodityId from commodity', function(err, queryResult) {
+    if (err) {
+      return callback(err.message, null);
+    }
+
+    if (_.isEmpty(queryResult)) {
+      return callback('don`t exist commodity info!', null);
+    }
+    return callback(null, queryResult);
+  });
+}
+
 function _updateCommodityInfo(data, callback) {
   mysqlConnection.query('update commodity set `crowdfundNumber`=? where `id`=?', [data.crowdfundNumber, data.commodityId], function(err, queryResult) {
     if (err) {
@@ -158,8 +161,38 @@ function _updateCommodityInfo(data, callback) {
   });
 }
 
+function initCrowdFund(data, callback) {
+  data.idList = '';
+  Thenjs(function(cont) {
+    _getCommodityInfoList(data, function(err, queryResult) {
+      if (err) {
+        var error = new Error();
+        error.message = err;
+        return cont(error, null);
+      }
+
+      data.idList = queryResult;
+      cont(null, queryResult);
+    });
+  }).each(data.idList, function(cont, value){
+    generateCrowdFund(value, function(err, result){
+      if(err){
+        var error = new Error();
+        error.message = err;
+        return cont(error, null);
+      }
+
+      return cont();
+    });
+  }).then(function(cont, arg){
+    return callback(null, 'success');
+  }).fail(function(err, cont) {
+    logger.error("module commodity: generateCrowdFund" + err.message);
+    return callback(err.message, null);
+  });
+}
+
 function generateCrowdFund(data, callback) {
-  console.log(data);
   Thenjs(function(cont) {
     _getCommodityInfo(data, function(err, queryResult) {
       if (err) {
@@ -193,7 +226,7 @@ function generateCrowdFund(data, callback) {
       return callback(null, 'addInstance success!');
     });
   }).fail(function(err, cont) {
-    logger.error("module commodity: generateCrowdFund" + err.message);
+    logger.error("module commodity: generateCrowdFund :" + err.message);
   });
 }
 
@@ -326,6 +359,7 @@ module.exports = {
   addCommodity: addCommodity,
   listCommodity: listCommodity,
   getCommodityNumber: getCommodityNumber,
+  initCrowdFund: initCrowdFund,
   detail: detail,
   listRecords: listRecords,
   isJoin: isJoin,

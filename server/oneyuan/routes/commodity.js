@@ -191,18 +191,31 @@ router.post('/buy', function(req, res, next) {
   });
 });
 
+router.post('/initInstance', function(req, res, next) {
+  var data = {
+  };
+
+  commodityService.initCrowdFund(data, function(err, result) {
+    if (err) {
+      return res.json({result: false});
+    }
+
+    return res.json({result: true});
+  })
+});
+
 router.post('/addInstance', function(req, res, next) {
   var data = {
     SSID: req.cookies.SSID || '',
     commodityId: req.body.id || '',
   };
 
-  commodityService.generateCrowdFund(data, function(err, result){
-    if(err){x
-      return res.json({result:false});
+  commodityService.generateCrowdFund(data, function(err, result) {
+    if (err) {
+      return res.json({result: false});
     }
 
-    return res.json({result:true});
+    return res.json({result: true});
   })
 });
 
@@ -227,7 +240,7 @@ router.get('/*', function(req, res, next) {
   data.typeCode = data.typeCode + '%';
 
   data.start = (parseInt(data.pageNo) - 1) * data.pageSize;
-  Thenjs(function(cont){
+  Thenjs(function(cont) {
     commodityService.listCommodity(data, function(err, commodities) {
       if (err) {
         var error = new Error();
@@ -237,12 +250,12 @@ router.get('/*', function(req, res, next) {
 
       return cont(null, commodities)
     });
-  }).then(function(cont, arg){
+  }).then(function(cont, arg) {
     var result = {
       code: error_code.Success,
       msg: '',
       data: {
-        page:{
+        page: {
           currentPageNo: data.pageNo,
           pageSize: data.pageSize,
           totalCount: 0,
@@ -258,7 +271,7 @@ router.get('/*', function(req, res, next) {
         return cont(error, null);
       }
 
-      if(parseInt(totalNumber)<0){
+      if (parseInt(totalNumber) < 0) {
         result.data.pageContent = [];
         return res.json(result);
       }
@@ -268,10 +281,57 @@ router.get('/*', function(req, res, next) {
       result.data.pageContent = arg;
       return res.json(result);
     });
-  }).fail(function(err, cont){
+  }).fail(function(err, cont) {
     var error = new Error();
     error.message = err.message;
     return errorHandler(res, error, error_code.DatabaseQueryError);
+  });
+});
+
+router.post('/*', function(req, res, next) {
+  var now = new Date().getTime();
+  var data = {
+    name: req.body.name || '',
+    price: req.body.price || '',
+    typeCode: req.body.typeCode || '',
+    label: req.body.label || '',
+    imageList: req.body.imageList || '',
+    createTime: now,
+    updateTime: now,
+  };
+
+  if (_.isEmpty(data.name)) {
+    var error = new Error();
+    error.message = "Params name is Empty!";
+    return errorHandler(res, error, error_code.ParamsError);
+  }
+
+  if (_.isEmpty(data.price)) {
+    var error = new Error();
+    error.message = "Params price is Empty!";
+    return errorHandler(res, error, error_code.ParamsError);
+  }
+
+  if (_.isEmpty(data.typeCode)) {
+    var error = new Error();
+    error.message = "Params typeCode is Empty!";
+    return errorHandler(res, error, error_code.ParamsError);
+  }
+
+  if (_.isEmpty(data.imageList)) {
+    var error = new Error();
+    error.message = "Params imageList is Empty!";
+    return errorHandler(res, error, error_code.ParamsError);
+  }
+
+  commodityService.addCommodity(data, function(err, result){
+    if(err){
+      var error = new Error();
+      error.message = err;
+      return errorHandler(res, error, error_code.DatabaseQueryError);
+    }
+
+    return res.json({result:'success to insert commodity :'+ data.name});
   });
 });
 
