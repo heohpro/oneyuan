@@ -6,17 +6,17 @@
 define(function () {
     return function ($http, $state) {
         return {
-            getCategoryList: function(){
+            getGoodsListByCategory: function(data){
                 return $http({
                     method: "get",
-                    url: basePath+"/goods/types",
+                    url: basePath+"/goods",
+                    params: data
                 });
             },
-            getCategoryDetail: function(data){
+            getCategoryList: function(data){
                 return $http({
                     method: "get",
-                    url: basePath+"/goods/types",
-                    params: data
+                    url: basePath+"/goods/types"
                 });
             }
         };
