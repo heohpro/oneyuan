@@ -1,34 +1,36 @@
-<div class="g-body">
+<div class="g-body" ng-controller="goodsCtrl">
     <div class="m-detail m-detail-ing">
         <div class="g-wrap g-body-hd f-clear">
             <div class="g-main">
                 <div class="w-dir">
-                    <a href="http://1.163.com">首页</a> &gt; <a href="http://1.163.com/list/1-0-1-1.html">手机平板</a> &gt; <span class="txt-red">商品详情 [期号：211111770]</span>
+                    <a ui-sref="app.index({categoryId:0})">首页</a> &gt;
+                    <!--<a href="http://1.163.com/list/1-0-1-1.html">手机平板</a> &gt; -->
+                    <span class="txt-red">商品详情 [期号：{{goods.periodId}}]</span>
                 </div>
                 <div class="g-main-l m-detail-show">
 
                     <i class="ico ico-label ico-label-l ico-label-l-ten"></i>
                     <div class="w-gallery" id="pro-view-2">
                         <div class="w-gallery-fullsize" data-pro="fullsize">
-                            <img width="410" height="380" src="http://res.126.net/p/dbqb/one/148/898/2e9c1febb2ae050e1729ec54ebcb0075.jpg" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/detail_m.jpg'">
+                            <img width="410" height="380" src="{{goods.url}}" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/detail_m.jpg'">
                         </div>
                         <i class="ico ico-arrow ico-arrow-red ico-arrow-red-up" data-pro="arrow" style="left: 36px;"></i>
                         <div class="w-gallery-thumbnail">
                             <ul class="w-gallery-thumbnail-list">
                                 <li data-pro="thumbnail" class="selected">
-                                    <img width="64" height="48" src="http://res.126.net/p/dbqb/one/148/898/c13d3357f4b73f058e5af0ae40252746.jpg" src-big="http://res.126.net/p/dbqb/one/148/898/2e9c1febb2ae050e1729ec54ebcb0075.jpg" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/detail_s.jpg'">
+                                    <img width="64" height="48" src="{{goods.url}}" src-big="http://res.126.net/p/dbqb/one/148/898/2e9c1febb2ae050e1729ec54ebcb0075.jpg" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/detail_s.jpg'">
                                 </li>
                                 <li data-pro="thumbnail">
-                                    <img width="64" height="48" src="http://res.126.net/p/dbqb/one/148/898/d634ce7ff810835cb092494417e87ae4.jpg" src-big="http://res.126.net/p/dbqb/one/148/898/3953be85e5aa7861071770ddda0716c9.jpg" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/detail_s.jpg'">
+                                    <img width="64" height="48" src="{{goods.url}}" src-big="http://res.126.net/p/dbqb/one/148/898/3953be85e5aa7861071770ddda0716c9.jpg" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/detail_s.jpg'">
                                 </li>
                                 <li data-pro="thumbnail">
-                                    <img width="64" height="48" src="http://res.126.net/p/dbqb/one/148/898/b71ebecdeff270f3245500615e5121dd.jpg" src-big="http://res.126.net/p/dbqb/one/148/898/c00daaad7484ccc663d41685508c6581.jpg" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/detail_s.jpg'">
+                                    <img width="64" height="48" src="{{goods.url}}" src-big="http://res.126.net/p/dbqb/one/148/898/c00daaad7484ccc663d41685508c6581.jpg" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/detail_s.jpg'">
                                 </li>
                                 <li data-pro="thumbnail">
-                                    <img width="64" height="48" src="http://res.126.net/p/dbqb/one/148/898/38b3fbce131757eaa7cdcdbb3ef8acf6.jpg" src-big="http://res.126.net/p/dbqb/one/148/898/9fd96a07ffd952d192e390ea97206686.jpg" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/detail_s.jpg'">
+                                    <img width="64" height="48" src="{{goods.url}}" src-big="http://res.126.net/p/dbqb/one/148/898/9fd96a07ffd952d192e390ea97206686.jpg" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/detail_s.jpg'">
                                 </li>
                                 <li data-pro="thumbnail">
-                                    <img width="64" height="48" src="http://res.126.net/p/dbqb/one/148/898/511e72c12aba0b84b3d4e7a44658828b.jpg" src-big="http://res.126.net/p/dbqb/one/148/898/52b221ab0665a491498d12cad437dbe7.jpg" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/detail_s.jpg'">
+                                    <img width="64" height="48" src="{{goods.url}}" src-big="http://res.126.net/p/dbqb/one/148/898/52b221ab0665a491498d12cad437dbe7.jpg" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/detail_s.jpg'">
                                 </li>
                             </ul>
                         </div>
@@ -46,23 +48,23 @@
                 </div>
                 <div class="g-main-m m-detail-main">
                     <div class="m-detail-main-title">
-                        <h1 title="Apple iPhone6s Plus 64G 颜色随机">Apple iPhone6s Plus 64G 颜色随机<span class="txt-red" title="唯一的不同，就是处处不同"> 唯一的不同，就是处处不同</span></h1>
+                        <h1 title="{{goods.name}}">{{goods.name}}<span class="txt-red" title="{{goods.slogan}}"> {{goods.slogan}}</span></h1>
                     </div>
                     <div class="w-goods-xxl m-detail-main-wrap m-detail-main-ing ">
                         <p class="m-detail-main-price">
-                            总需：<span class="txt-main">8080</span> 人次
+                            总需：<span class="txt-main">{{goods.totalNumber}}</span> 人次
 
                         </p>
-                        <div class="w-progressBar" title="48.8%">
+                        <div class="w-progressBar" title="{{goods.currentNumber/goods.totalNumber}}">
                             <p class="w-progressBar-wrap">
-                                <span class="w-progressBar-bar" style="width:48.8%;"></span>
+                                <span class="w-progressBar-bar" style="width:{{goods.currentNumber/goods.totalNumber}};"></span>
                             </p>
                             <ul class="w-progressBar-txt f-clear">
-                                <li class="w-progressBar-txt-l"><p><b>3940</b></p><p>已参与人次</p></li>
-                                <li class="w-progressBar-txt-r"><p><b>4140</b></p><p>剩余人次</p></li>
+                                <li class="w-progressBar-txt-l"><p><b>{{goods.currentNumber}}</b></p><p>已参与人次</p></li>
+                                <li class="w-progressBar-txt-r"><p><b>{{goods.totalNumber-goods.currentNumber}}</b></p><p>剩余人次</p></li>
                             </ul>
                         </div>
-                        <p class="m-detail-main-progress"><b class="txt-blue">3940</b>人次已参与，赶快去参加吧！剩余<b class="txt-red">4140</b>人次</p>
+                        <p class="m-detail-main-progress"><b class="txt-blue">{{goods.currentNumber}}</b>人次已参与，赶快去参加吧！剩余<b class="txt-red">{{goods.totalNumber-goods.currentNumber}}</b>人次</p>
                         <div class="m-detail-main-count">
                             参与：<div id="buyNumbers" class="m-detail-main-count-number"><div class="w-number w-number-inline" id="pro-view-3">                        <input class="w-number-input" data-pro="input" value="10">                        <a title="可以长按哦~" class="w-number-btn w-number-btn-plus" data-pro="plus" href="javascript:void(0);">+</a>                        <a title="可以长按哦~" class="w-number-btn w-number-btn-minus" data-pro="minus" href="javascript:void(0);">-</a>                    </div></div>人次
 

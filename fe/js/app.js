@@ -75,12 +75,18 @@ define(
                         templateUrl: baseUrl + 'tpl/app.html'
                     })
                     .state('app.index', {
-                        url: "/index",
-                        templateUrl: baseUrl + 'tpl/index.html'
+                        url: "/index/:categoryId",
+                        templateUrl: baseUrl + 'tpl/index.html',
+                        params:{
+                            categoryId:0
+                        }
                     })
                     .state('app.goods', {
-                        url: "/goods",
-                        templateUrl: baseUrl + 'tpl/goods.html'
+                        url: "/goods/:goodsId",
+                        templateUrl: baseUrl + 'tpl/goods.html',
+                        params:{
+                            goodsId:0
+                        }
                     })
                     .state('app.user', {
                         url: "/user",
@@ -100,7 +106,7 @@ define(
 
 
 
-                $urlRouterProvider.otherwise("/app/index");
+                $urlRouterProvider.otherwise("/app/index/0");
 
             });
 

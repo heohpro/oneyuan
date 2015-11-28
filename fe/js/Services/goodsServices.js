@@ -1,16 +1,15 @@
 /**
- * @file dcServices
- * @author penglu02@meituan.com
+ * @file goodsServices
+ * @author heqingyang@meituan.com
  */
 
 define(function () {
     return function ($http, $state) {
         return {
-            getData: function(){
+            getGoodsDetail: function(goodsId){
                 return $http({
-                    method: "post",
-                    url: basePath+"/admin/dc/dcuploadlist",
-                    data:{}
+                    method: "get",
+                    url: basePath+"/goods/"+goodsId,
                 });
             },
             deleteRule: function(id,type){
