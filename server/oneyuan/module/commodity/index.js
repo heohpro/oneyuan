@@ -67,7 +67,7 @@ function listCommodity(data, callback) {
   'where isFinish=0 and typeCode like ? limit ?,?', [data.typeCode, parseInt(data.start), parseInt(data.pageSize)], function(err, rows) {
     if (err) {
       console.log(err);
-      callback(err.message, null);
+      return callback(err.message, null);
     }
     callback(null, rows);
   });
@@ -79,7 +79,7 @@ function getCommodityNumber(data, callback) {
   'where isFinish=0 and typeCode like ?', [data.typeCode], function(err, count) {
     if (err) {
       console.log(err);
-      callback(err.message, null);
+      return callback(err.message, null);
     }
 
     callback(null, count[0].num);
@@ -163,14 +163,15 @@ function _updateCommodityInfo(data, callback) {
 
 function initCrowdFund(data, callback) {
   data.idList = '';
+  logger.info('initCrowdFund start');
   Thenjs(function(cont) {
     _getCommodityInfoList(data, function(err, queryResult) {
       if (err) {
         var error = new Error();
-        error.message = err;
+        error.message = 'getCommodityList error!';
         return cont(error, null);
       }
-
+      logger.info('_getCommodityInfoList finish');
       data.idList = queryResult;
       cont(null, queryResult);
     });
@@ -178,13 +179,14 @@ function initCrowdFund(data, callback) {
     generateCrowdFund(value, function(err, result){
       if(err){
         var error = new Error();
-        error.message = err;
+        error.message = 'generateCrowdFund error!';
         return cont(error, null);
       }
 
       return cont();
     });
   }).then(function(cont, arg){
+    logger.info('initCrowdFund finish!');
     return callback(null, 'success');
   }).fail(function(err, cont) {
     logger.error("module commodity: generateCrowdFund" + err.message);
@@ -197,7 +199,7 @@ function generateCrowdFund(data, callback) {
     _getCommodityInfo(data, function(err, queryResult) {
       if (err) {
         var error = new Error();
-        error.message = err;
+        error.message = '_getCommodityInfo error!';
         return cont(error, null);
       }
 
@@ -208,7 +210,7 @@ function generateCrowdFund(data, callback) {
     _addCrowdFundInstance(arg, function(err, addResult) {
       if (err) {
         var error = new Error();
-        error.message = err;
+        error.message = '_addCrowdFundInstance error!';
         return cont(error, null);
       }
 
@@ -247,7 +249,7 @@ function listRecords(data, callback) {
  * 商品的详情
  * */
 function detail(data, callback) {
-  mysqlConnection.query('select id, name,imageList url, introduction, detail,' +
+  mysqlConnection.query('select id, name,imageList url, introduction, detail,periodId' +
   ' totalNumber, currentNumber, startTime, endTime ' +
   'from crowdfund_instance ' +
   'where id=? and isFinish=0', [data.commodityInstanceId], function(err, rows) {

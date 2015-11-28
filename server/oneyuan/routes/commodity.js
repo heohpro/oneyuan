@@ -51,7 +51,7 @@ router.get('/:id', function(req, res, next) {
     var result = {
       code: error_code.Success,
       msg: '',
-      data: arg,
+      data: arg
     };
 
     if (_.isEmpty(data.SSID)) {
@@ -259,7 +259,7 @@ router.get('/*', function(req, res, next) {
           currentPageNo: data.pageNo,
           pageSize: data.pageSize,
           totalCount: 0,
-          totalPageCount: 0,
+          totalPageCount: 0
         }
       }
     };
@@ -277,7 +277,7 @@ router.get('/*', function(req, res, next) {
       }
 
       result.data.page.totalCount = totalNumber;
-      result.data.page.totalPageCount = parseInt(parseInt(totalNumber) / data.pageSize);
+      result.data.page.totalPageCount = parseInt(parseInt(totalNumber) / data.pageSize) + 1;
       result.data.pageContent = arg;
       return res.json(result);
     });
