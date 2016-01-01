@@ -1,0 +1,16 @@
+<div class="panel-group" ng-transclude="">
+    <div class="panel panel-default ng-isolate-scope" ng-repeat="supplier in suppliers" ng-if="supplier.materials" is-open="status.isFirstOpen">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a class="accordion-toggle" ng-click="clickFn($event,supplier,true)" accordion-transclude="heading"><span ng-class="{'text-muted': isDisabled}" class="ng-binding">{{supplier.supplier.brandName}}</span></a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse in" collapse="supplier.flag" style="height: auto;">
+            <div class="panel-body" ng-transclude="">
+                <select multiple="" class="form-control">
+                    <option ng-repeat="material in supplier.materials" value="{{material.goodsId}}" ng-click="clickFn($event,material,false)" ng-dblclick="dblclickFn(supplier)">{{material.goodsName}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

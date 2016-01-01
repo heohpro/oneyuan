@@ -1,8 +1,9 @@
 /**
  * Created by jlf on 15/11/1.
  */
-var ErrorCode = require('./error_code').ErrorCode;
+var ErrorCode = require('./error_code');
 var _ = require('underscore');
+var logger = require('./logger');
 
 function errorHandler(res, error, errorCode) {
   res.status(400);

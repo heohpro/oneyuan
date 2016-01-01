@@ -1,0 +1,29 @@
+{
+    "status": 1,
+    "data": [
+        {
+            "storeId": 1,
+            "storeName": "�利�"
+        },
+        {
+            "storeId": 2,
+            "storeName": "无"
+        },
+        {
+            "storeId": 3,
+            "storeName": "华丰"
+        },
+        {
+            "storeId": 4,
+            "storeName": "乌江"
+        },
+        {
+            "storeId": 5,
+            "storeName": "露露"
+        },
+        {
+            "storeId": 6,
+            "storeName": "格力高"
+        }
+    ]
+}

@@ -1,0 +1,145 @@
+<div class="g-body" ng-controller="indexCtrl">
+    <div class="m-list">
+        <div class="g-wrap g-body-hd f-clear">
+            <div class="w-dir">
+                <a ui-sref="app.index({categoryId:0})">首页</a> &gt; <span class="txt-red">全部商品</span>
+            </div>
+
+            <div class="m-list-mod m-list-allType">
+                <div class="m-list-mod-hd">
+                    <h3><a ui-sref="app.index({categoryId:0})">所有商品</a> <span class="extra">（共 <b class="txt-red count">{{goods.length}}</b> 件相关商品）</span></h3>
+                </div>
+                <div class="m-list-mod-bd">
+                    <ul class="m-list-allType-list">
+                        <!--<li class="">-->
+                            <!--<a ng-repeat="category in categorys track by $index" href="http://1.163.com/list/1-0-1-1.html">-->
+                                <!--<span class="icon"><i class="ico ico-type ico-type-{{category.code/10}} first"></i><i class="ico ico-type ico-type-{{category.code/10}} second"></i></span>-->
+                                <!--<b class="name">{{category.name}}</b>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                        <li class="">
+                            <a ui-sref="app.index({categoryId:1})">
+                                <span class="icon"><i class="ico ico-type ico-type-1 first"></i><i class="ico ico-type ico-type-1 second"></i></span>
+                                <b class="name">手机平板</b>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a ui-sref="app.index({categoryId:2})">
+                                <span class="icon"><i class="ico ico-type ico-type-2 first"></i><i class="ico ico-type ico-type-2 second"></i></span>
+                                <b class="name">电脑办公</b>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a ui-sref="app.index({categoryId:3})">
+                                <span class="icon"><i class="ico ico-type ico-type-3 first"></i><i class="ico ico-type ico-type-3 second"></i></span>
+                                <b class="name">数码影音</b>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a ui-sref="app.index({categoryId:4})">
+                                <span class="icon"><i class="ico ico-type ico-type-4 first"></i><i class="ico ico-type ico-type-4 second"></i></span>
+                                <b class="name">女性时尚</b>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a ui-sref="app.index({categoryId:5})">
+                                <span class="icon"><i class="ico ico-type ico-type-5 first"></i><i class="ico ico-type ico-type-5 second"></i></span>
+                                <b class="name">美食天地</b>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a ui-sref="app.index({categoryId:6})">
+                                <span class="icon"><i class="ico ico-type ico-type-6 first"></i><i class="ico ico-type ico-type-6 second"></i></span>
+                                <b class="name">潮流新品</b>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a ui-sref="app.index({categoryId:7})">
+                                <span class="icon"><i class="ico ico-type ico-type-7 first"></i><i class="ico ico-type ico-type-7 second"></i></span>
+                                <b class="name">周边产品</b>
+                            </a>
+                        </li>
+                        <li class=" last">
+                            <a ui-sref="app.index({categoryId:8})">
+                                <span class="icon"><i class="ico ico-type ico-type-8 first"></i><i class="ico ico-type ico-type-8 second"></i></span>
+                                <b class="name">其他商品</b>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="g-wrap g-body-bd f-clear">
+            <div class="m-list-mod m-list-goodsList">
+
+                <div class="m-list-mod-bd">
+                    <ul class="w-quickBuyList f-clear">
+
+                        <li ng-repeat="good in goods track by $index" class="w-quickBuyList-item" ng-class="{true: 'row-last', false: ''}[($index+1)%4==0]">
+
+                            <i class="ico ico-label ico-label-ten"></i>
+                            <div class="w-goods w-goods-l w-goods-ing" data-gid="140" data-period="12321" data-price="{{good.totalNumber}}" data-existingtimes="{{good.currentNumber}}" data-regularbuymax="1" data-buyunit="1">
+                                <div class="w-goods-pic">
+                                    <a ui-sref="app.goods({goodsId:good.id})" title="{{good.name}}" target="_blank">
+                                        <img width="200" height="150" alt="{{good.name}}" src="{{good.url}}" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/m.png'" class="">
+                                    </a>
+                                </div>
+                                <p class="w-goods-title f-txtabb"><a title="{{good.name}}" ui-sref="app.goods({goodsId:good.id})" target="_blank">(第12321期) {{good.name}}</a></p>
+                                <p class="w-goods-price">
+                                    总需：{{good.totalNumber}} 人次
+
+                                </p>
+                                <div class="w-progressBar" title="{{good.currentNumber/good.totalNumber}}">
+                                    <p class="w-progressBar-wrap">
+                                        <span class="w-progressBar-bar" style="width:{{good.currentNumber/good.totalNumber}};"></span>
+                                    </p>
+                                    <ul class="w-progressBar-txt f-clear">
+                                        <li class="w-progressBar-txt-l"><p><b>{{good.currentNumber}}</b></p><p>已参与人次</p></li>
+                                        <li class="w-progressBar-txt-r"><p><b>{{good.totalNumber-good.currentNumber}}</b></p><p>剩余人次</p></li>
+                                    </ul>
+                                </div>
+                                <p class="w-goods-progressHint">
+                                    <b class="txt-blue">{{good.currentNumber}}</b>人次已参与，赶快去参加吧！剩余<b class="txt-red">{{good.totalNumber-good.currentNumber}}</b>人次
+                                </p>
+                                <div class="w-goods-opr">
+
+                                    我要参与： <div class="w-goods-opr-number"><div class="w-number w-number-inline" id="pro-view-3">
+                                    <input class="w-number-input" data-pro="input" value="10">
+                                    <a title="可以长按哦~" class="w-number-btn w-number-btn-plus" data-pro="plus" href="javascript:void(0);">+</a>                        <a title="可以长按哦~" class="w-number-btn w-number-btn-minus" data-pro="minus" href="javascript:void(0);">-</a>                    </div></div> 人次
+
+                                    <p class="w-goods-opr-buy">
+                                        <a class="w-button w-button-main w-button-l w-goods-btn-quickBuy" ui-sref="app.goods({goodsId:good.id})" style="width:90px;">立即夺宝</a>
+                                        <a class="w-button w-button-l w-goods-btn-addToCart" ui-sref="app.goods({goodsId:good.id})" style="width:90px;">加入清单</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="m-list-pager">
+                <div class="w-pager" id="pro-view-43">
+                    <!--{{//pageList}}-->
+                    <a class="w-button w-pager-prev w-button-aside " id="pro-view-44" ng-class="{true: 'w-button-disabled', false: ''}[!lastPage]">
+                        <span>&lt;&lt; 上一页</span>
+                    </a>
+                    <a ng-repeat="page in pageList"  ng-if="!page.disabled" class="w-button  w-button-aside" ng-click="changePage(page.number)" ng-class="{true: 'w-pager-cur  w-button-disabled', false: ''}[page.active]" disabled="page.disabled">
+                        <span>{{page.number}}</span>
+                    </a>
+                    <a class="w-button w-pager-next w-button-aside" id="pro-view-55" href="http://1.163.com/list/0-0-1-2.html" ng-class="{true: 'w-button-disabled', false: ''}[!nextPage]">
+                        <span>下一页 &gt;&gt;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<div style="font-size:20px" ng-show="username" >-->
+    <!--当前用户:-->
+    <!--<span style="color:red">{{username}}</span>-->
+<!--</div>-->
+<!--<div style="font-size:20px" ng-show="!username">-->
+    <!--<span style="color:red">您没有权限访问，请您联系管理员。</span>-->
+<!--</div>-->
