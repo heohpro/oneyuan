@@ -10,6 +10,7 @@ define(function () {
         "ctrlName": "AppCtrl",
         "ctrlFn": function ($scope, $state, $modal, $window, $rootScope, userServices, growl,$location) {
             // add 'ie' classes to html
+
             var isSmartDevice = function ($window) {
                 // Adapted from http://www.detectmobilebrowsers.com
                 var ua = $window['navigator']['userAgent'] || $window['navigator']['vendor'] || $window['opera'];
@@ -25,6 +26,8 @@ define(function () {
             $scope.basePath = basePath;
             // location.href = location.href.replace(location.search,"");
             $rootScope.username = '';
+
+            console.log($rootScope);
 
             $scope.app = {
                 name: ' 供应链业务管理后台',

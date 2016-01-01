@@ -80,11 +80,11 @@
                             <i class="ico ico-label ico-label-ten"></i>
                             <div class="w-goods w-goods-l w-goods-ing" data-gid="140" data-period="12321" data-price="{{good.totalNumber}}" data-existingtimes="{{good.currentNumber}}" data-regularbuymax="1" data-buyunit="1">
                                 <div class="w-goods-pic">
-                                    <a ui-sref="app.goods({goodId:good.id})" title="{{good.name}}" target="_blank">
+                                    <a ui-sref="app.goods({goodsId:good.id})" title="{{good.name}}" target="_blank">
                                         <img width="200" height="150" alt="{{good.name}}" src="{{good.url}}" onerror="this.src='http://mimg.127.net/p/yy/lib/img/products/m.png'" class="">
                                     </a>
                                 </div>
-                                <p class="w-goods-title f-txtabb"><a title="{{good.name}}" ui-sref="app.goods({goodId:good.id})" target="_blank">(第12321期) {{good.name}}</a></p>
+                                <p class="w-goods-title f-txtabb"><a title="{{good.name}}" ui-sref="app.goods({goodsId:good.id})" target="_blank">(第12321期) {{good.name}}</a></p>
                                 <p class="w-goods-price">
                                     总需：{{good.totalNumber}} 人次
 
@@ -108,8 +108,8 @@
                                     <a title="可以长按哦~" class="w-number-btn w-number-btn-plus" data-pro="plus" href="javascript:void(0);">+</a>                        <a title="可以长按哦~" class="w-number-btn w-number-btn-minus" data-pro="minus" href="javascript:void(0);">-</a>                    </div></div> 人次
 
                                     <p class="w-goods-opr-buy">
-                                        <a class="w-button w-button-main w-button-l w-goods-btn-quickBuy" ui-sref="app.goods({goodId:good.id})" style="width:90px;">立即夺宝</a>
-                                        <a class="w-button w-button-l w-goods-btn-addToCart" ui-sref="app.goods({goodId:good.id})" style="width:90px;">加入清单</a>
+                                        <a class="w-button w-button-main w-button-l w-goods-btn-quickBuy" ui-sref="app.goods({goodsId:good.id})" style="width:90px;">立即夺宝</a>
+                                        <a class="w-button w-button-l w-goods-btn-addToCart" ui-sref="app.goods({goodsId:good.id})" style="width:90px;">加入清单</a>
                                     </p>
                                 </div>
                             </div>
